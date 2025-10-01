@@ -31,8 +31,8 @@ st.pyplot(fig)
 
 # Informace o autorovi a technologiích
 st.sidebar.markdown("### Info")
-st.sidebar.write("Autor: [Tvoje jméno]")
-st.sidebar.write("Kontakt: tvůj email")
+st.sidebar.write("Autor: [Ondřej Brosch]")
+st.sidebar.write("Kontakt: 277700@vutbr.cz")
 st.sidebar.write("Technologie: Python, Streamlit, Matplotlib, NumPy")
 
 # Export do PDF (zatím jen jednoduchý text)
