@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+import tempfile
 
 # Titulek aplikace
 st.title("Bodový graf kružnice")
