@@ -93,7 +93,7 @@ if st.button("Uložit graf a parametry do PDF"):
 
     # rovnou nabídne ke stažení
     with open(pdf_file.name, "rb") as f:
-        st.download_button(
+        st.download_button()
             label="Stáhnout PDF",
             data=f,
             file_name="kruznice.pdf",
