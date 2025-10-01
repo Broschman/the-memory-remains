@@ -90,8 +90,17 @@ if st.button("Uložit graf a parametry do PDF"):
     pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
     st.success(f"PDF bylo vygenerováno ({pdf_file})")
-
-    # uloží PDF
+        
+if st.button("Uložit graf a parametry do PDF"):
+    # --- generování PDF ---
     pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
-    st.success(f"PDF bylo vygenerováno ({pdf_file})")
+
+    # --- tlačítko ke stažení PDF ---
+    with open(pdf_file, "rb") as f:
+        st.download_button(
+            label="Stáhnout PDF",
+            data=f,
+            file_name="kruznice.pdf",
+            mime="application/pdf"
+        )
