@@ -87,7 +87,7 @@ if st.button("Uložit graf a parametry do PDF"):
 pdf.multi_cell(0, 8, text, align="L")
 
     # uloží PDF
-        pdf_file = "kruznice.pdf"
+    pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
     st.success(f"PDF bylo vygenerováno ({pdf_file})")
         
