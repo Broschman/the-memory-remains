@@ -21,15 +21,6 @@ y = y0 + r * np.sin(angles)
 
 # Vykreslení grafu
 fig, ax = plt.subplots()
-ax.scatter(x, y, c=barva, s=velikost, label="Body")
-ax.set_aspect("equal", adjustable="box")
-ax.set_xlabel("x (m)")
-ax.set_ylabel("y (m)")
-ax.grid(True)
-ax.legend()
-
-st.pyplot(fig)
-fig, ax = plt.subplots()
 
 # body
 ax.scatter(x, y, c=barva, s=velikost, label="Body")
