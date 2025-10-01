@@ -35,13 +35,17 @@ ax.set_ylabel("y (m)")
 # tenká šedá mřížka
 ax.grid(True, color="lightgray", linewidth=0.5)
 
-# osy x=0 a y=0 černé tenké
-ax.axhline(0, color="black", linewidth=0.8)
-ax.axvline(0, color="black", linewidth=0.8)
+# černé osy uprostřed kružnice
+ax.axhline(y=y0, color="black", linewidth=0.8)
+ax.axvline(x=x0, color="black", linewidth=0.8)
+
+# napsání souřadnic u středu kružnice
+ax.text(x0, y0, f"[{x0}, {y0}]", color="black",
+        fontsize=10, ha="right", va="bottom",
+        bbox=dict(facecolor="white", alpha=0.5, edgecolor="none"))
 
 ax.legend()
 st.pyplot(fig)
-
 
 # Informace o autorovi a technologiích
 st.sidebar.markdown("### Info")
