@@ -54,9 +54,6 @@ st.sidebar.write("Autor: Ondřej Brosch")
 st.sidebar.write("Kontakt: 277700@vutbr.cz")
 st.sidebar.write("Technologie: Python, Streamlit, Matplotlib, NumPy")
 
-# Export do PDF (zatím jen jednoduchý text)
-from fpdf import FPDF
-
 if st.button("Uložit graf a parametry do PDF"):
 from fpdf import FPDF
 import tempfile
