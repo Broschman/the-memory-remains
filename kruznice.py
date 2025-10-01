@@ -60,8 +60,11 @@ kontakt = "277700@vutbr.cz"
 technologie = "Python, Streamlit, Matplotlib, NumPy"
 
 if st.button("Uložit graf a parametry do PDF"):
-    # vytvoření PDF do dočasného souboru
-    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    # uložíme graf jako obrázek
+    tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+    fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
+
+    # vytvoření PDF
     pdf = FPDF()
     pdf.add_page()
     pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
@@ -70,21 +73,22 @@ if st.button("Uložit graf a parametry do PDF"):
     # vložení obrázku
     pdf.image(tmpfile.name, x=10, y=20, w=100)
 
-    # text
+    # text vedle obrázku
     pdf.set_xy(120, 20)
     text = (
         f"Body na kruznici - parametry\n\n"
         f"Střed: ({x0}, {y0})\n"
         f"Poloměr: {r} m\n"
         f"Počet bodů: {n}\n"
-        f"Velikost bodů: {velikost}\n\n"
+        f"Velikost bodů: {velikost}\n\n"  # vynechaný řádek
         f"Autor: {autor}\n"
         f"Kontakt: {kontakt}\n"
         f"Použité technologie: {technologie}"
     )
     pdf.multi_cell(0, 8, text, align="L")
 
-    # uloží PDF
+    # uloží PDF do dočasného souboru
+    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     pdf.output(pdf_file.name)
 
     # rovnou nabídne ke stažení
@@ -95,5 +99,3 @@ if st.button("Uložit graf a parametry do PDF"):
             file_name="kruznice.pdf",
             mime="application/pdf"
         )
-
-        
