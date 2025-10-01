@@ -23,7 +23,7 @@ y = y0 + r * np.sin(angles)
 fig, ax = plt.subplots()
 
 # body
-ax.scatter(x, y, c=barva, s=velikost, label="Body")
+ax.scatter(x, y, c=barva, s=velikost, label="Body", zorder=5)
 
 # stejné měřítko os
 ax.set_aspect("equal", adjustable="box")
@@ -33,11 +33,11 @@ ax.set_xlabel("x (m)")
 ax.set_ylabel("y (m)")
 
 # tenká šedá mřížka
-ax.grid(True, color="lightgray", linewidth=0.5)
+ax.grid(True, color="lightgray", linewidth=0.5, zorder=0)
 
 # černé osy uprostřed kružnice
-ax.axhline(y=y0, color="black", linewidth=0.8)
-ax.axvline(x=x0, color="black", linewidth=0.8)
+ax.axhline(y=y0, color="black", linewidth=0.8, zorder=1)
+ax.axvline(x=x0, color="black", linewidth=0.8, zorder=1)
 
 # napsání souřadnic u středu kružnice, odsazeno od os
 offset = 0.02 * r  # odsazení 2 % poloměru
