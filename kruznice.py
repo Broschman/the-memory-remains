@@ -74,7 +74,7 @@ if st.button("Uložit graf a parametry do PDF"):
 
     # Přidání textu vedle obrázku
     pdf.set_xy(120, 20)  # pozice textu vedle obrázku
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("DeJaVu", size=12)
     
     text = (
         f"Body na kruznici - parametry\n\n"
