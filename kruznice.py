@@ -7,9 +7,9 @@ st.title("Body na kružnici")
 
 # Vstupní parametry
 st.sidebar.header("Parametry")
-x0 = st.sidebar.number_input("Souřadnice středu X", value=0.0)
-y0 = st.sidebar.number_input("Souřadnice středu Y", value=0.0)
-r = st.sidebar.number_input("Poloměr kružnice (m)", value=1.0, min_value=0.1)
+x0 = st.sidebar.number_input("Souřadnice středu X", value=0)
+y0 = st.sidebar.number_input("Souřadnice středu Y", value=0)
+r = st.sidebar.number_input("Poloměr kružnice (m)", value=1, min_value=1)
 n = st.sidebar.slider("Počet bodů", min_value=3, max_value=500, value=20)
 barva = st.sidebar.color_picker("Barva bodů", "#ff0000")
 velikost = st.sidebar.slider("Velikost bodů", min_value=1, max_value=50, value=20)
