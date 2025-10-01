@@ -61,12 +61,16 @@ autor = "Ondřej Brosch"
 kontakt = "277700@vutbr.cz"
 technologie = "Python, Streamlit, Matplotlib, NumPy"
 
-if st.button("Uložit graf a parametry do PDF"):
-    # uložíme graf jako obrázek
+if st.button("Stáhnout PDF"):
+    import tempfile
+    from fpdf import FPDF
+
+    # uložíme graf do dočasného PNG
     tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
     fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
 
     # vytvoření PDF
+    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     pdf = FPDF()
     pdf.add_page()
     pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
@@ -82,15 +86,14 @@ if st.button("Uložit graf a parametry do PDF"):
         f"Střed: ({x0}, {y0})\n"
         f"Poloměr: {r} m\n"
         f"Počet bodů: {n}\n"
-        f"Velikost bodů: {velikost}\n\n"  # vynechaný řádek
-        f"Autor: {autor}\n"
-        f"Kontakt: {kontakt}\n"
-        f"Použité technologie: {technologie}"
+        f"Velikost bodů: {velikost}\n\n"
+        f"Autor: Ondřej Brosch\n"
+        f"Kontakt: 277700@vutbr.cz\n"
+        f"Použité technologie: Python, Streamlit, Matplotlib, NumPy"
     )
     pdf.multi_cell(0, 8, text, align="L")
 
-    # uloží PDF do dočasného souboru
-    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    # uloží PDF
     pdf.output(pdf_file.name)
 
     # rovnou nabídne ke stažení
