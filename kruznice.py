@@ -65,7 +65,6 @@ if st.button("Uložit graf a parametry do PDF"):
     # vytvoření PDF
     pdf = FPDF()
     pdf.add_page()
-
     pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
     pdf.set_font("DejaVu", size=12)
 
@@ -75,27 +74,23 @@ if st.button("Uložit graf a parametry do PDF"):
     # vložení textu vedle obrázku
     pdf.set_xy(120, 20)
     text = (
-    f"Body na kruznici - parametry\n\n"
-    f"Střed: ({x0}, {y0})\n"
-    f"Poloměr: {r} m\n"
-    f"Počet bodů: {n}\n"
-    f"Velikost bodů: {velikost}\n"
-    f"Autor: {autor}\n"
-    f"Kontakt: {kontakt}\n"
-    f"Použité technologie: {technologie}"
-)
-pdf.multi_cell(0, 8, text, align="L")
+        f"Body na kruznici - parametry\n\n"
+        f"Střed: ({x0}, {y0})\n"
+        f"Poloměr: {r} m\n"
+        f"Počet bodů: {n}\n"
+        f"Velikost bodů: {velikost}\n"
+        f"Autor: {autor}\n"
+        f"Kontakt: {kontakt}\n"
+        f"Použité technologie: {technologie}"
+    )
+    pdf.multi_cell(0, 8, text, align="L")  # <--- odsazeno správně
 
     # uloží PDF
     pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
     st.success(f"PDF bylo vygenerováno ({pdf_file})")
-        
-    # --- generování PDF ---
-    pdf_file = "kruznice.pdf"
-    pdf.output(pdf_file)
 
-    # --- tlačítko ke stažení PDF ---
+    # tlačítko ke stažení PDF
     with open(pdf_file, "rb") as f:
         st.download_button(
             label="Stáhnout PDF",
