@@ -64,27 +64,30 @@ if st.button("Uložit graf a parametry do PDF"):
     # Uložíme graf do dočasného souboru
     tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
     fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
-    
+
     # Vytvoření PDF
     pdf = FPDF()
     pdf.add_page()
-    
+
     # Přidání obrázku (grafu) vlevo
-    pdf.image(tmpfile.name, x=10, y=20, w=100)  # x, y = pozice, w = šířka
-    
-    # Přidání parametrů a autora vedle obrázku
-    pdf.set_xy(120, 20)  # pozice vedle obrázku
+    pdf.image(tmpfile.name, x=10, y=20, w=100)
+
+    # Přidání textu vedle obrázku
+    pdf.set_xy(120, 20)  # pozice textu vedle obrázku
     pdf.set_font("Arial", size=12)
-    pdf.multi_cell(80, 8, 
-                   f"Body na kružnici - parametry\n\n"
-                   f"Střed: ({x0}, {y0})\n"
-                   f"Poloměr: {r} m\n"
-                   f"Počet bodů: {n}\n"
-                   f"Velikost bodů: {velikost}\n"
-                   f"Barva bodů: {barva}\n\n"
-                   f"Autor: [Tvoje jméno]\n"
-                   f"Kontakt: [email/telefon]")
     
+    text = (
+        f"Body na kruznici - parametry\n\n"
+        f"Střed: ({x0}, {y0})\n"
+        f"Poloměr: {r} m\n"
+        f"Počet bodů: {n}\n"
+        f"Velikost bodů: {velikost}\n"
+        f"Barva bodů: {barva}\n\n"
+        f"Autor: [Tvoje jméno]\n"
+        f"Kontakt: [email/telefon]"
+    )
+    pdf.multi_cell(0, 8, text, align="L")
+
     # Uloží PDF
     pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
