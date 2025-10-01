@@ -57,16 +57,35 @@ st.sidebar.write("Technologie: Python, Streamlit, Matplotlib, NumPy")
 # Export do PDF (zatím jen jednoduchý text)
 from fpdf import FPDF
 
-if st.button("Uložit parametry do PDF"):
+if st.button("Uložit graf a parametry do PDF"):
+    from fpdf import FPDF
+    import tempfile
+
+    # Uložíme graf do dočasného souboru
+    tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+    fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
+    
+    # Vytvoření PDF
     pdf = FPDF()
     pdf.add_page()
+    
+    # Přidání obrázku (grafu) vlevo
+    pdf.image(tmpfile.name, x=10, y=20, w=100)  # x, y = pozice, w = šířka
+    
+    # Přidání parametrů a autora vedle obrázku
+    pdf.set_xy(120, 20)  # pozice vedle obrázku
     pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt="Body na kružnici", ln=True, align="C")
-    pdf.ln(10)
-    pdf.cell(200, 10, txt=f"Střed: ({x0}, {y0})", ln=True)
-    pdf.cell(200, 10, txt=f"Poloměr: {r} m", ln=True)
-    pdf.cell(200, 10, txt=f"Počet bodů: {n}", ln=True)
-    pdf.cell(200, 10, txt=f"Barva: {barva}", ln=True)
-    pdf.cell(200, 10, txt="Autor: Tvoje jméno, kontakt", ln=True)
-    pdf.output("parametry.pdf")
-    st.success("PDF bylo vygenerováno (parametry.pdf)")
+    pdf.multi_cell(80, 8, 
+                   f"Body na kružnici - parametry\n\n"
+                   f"Střed: ({x0}, {y0})\n"
+                   f"Poloměr: {r} m\n"
+                   f"Počet bodů: {n}\n"
+                   f"Velikost bodů: {velikost}\n"
+                   f"Barva bodů: {barva}\n\n"
+                   f"Autor: [Tvoje jméno]\n"
+                   f"Kontakt: [email/telefon]")
+    
+    # Uloží PDF
+    pdf_file = "kruznice.pdf"
+    pdf.output(pdf_file)
+    st.success(f"PDF bylo vygenerováno ({pdf_file})")
