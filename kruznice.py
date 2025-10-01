@@ -54,9 +54,14 @@ st.sidebar.write("Autor: Ondřej Brosch")
 st.sidebar.write("Kontakt: 277700@vutbr.cz")
 st.sidebar.write("Technologie: Python, Streamlit, Matplotlib, NumPy")
 
+# pevně nastavené údaje o autorovi
+autor = "Ondřej Brosch"
+kontakt = "277700@vutbr.cz"
+technologie = "Python, Streamlit, Matplotlib, NumPy"
+
 if st.button("Uložit graf a parametry do PDF"):
-    from fpdf import FPDF
     import tempfile
+    from fpdf import FPDF
 
     # uložíme graf jako obrázek
     tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
@@ -82,8 +87,8 @@ if st.button("Uložit graf a parametry do PDF"):
         f"Autor: {autor}\n"
         f"Kontakt: {kontakt}\n"
         f"Použité technologie: {technologie}"
-        )
-        pdf.multi_cell(0, 8, text, align="L")
+    )
+    pdf.multi_cell(0, 8, text, align="L")  # odsazení správně
 
     # uloží PDF
     pdf_file = "kruznice.pdf"
