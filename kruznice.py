@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import tempfile
+from fpdf import FPDF
 
 # Titulek aplikace
 st.title("Bodový graf kružnice")
