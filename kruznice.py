@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Titulek aplikace
-st.title("Body na kružnici")
+st.title("Bodový graf kružnice")
 
 # Vstupní parametry
 st.sidebar.header("Parametry")
@@ -39,9 +39,10 @@ ax.grid(True, color="lightgray", linewidth=0.5)
 ax.axhline(y=y0, color="black", linewidth=0.8)
 ax.axvline(x=x0, color="black", linewidth=0.8)
 
-# napsání souřadnic u středu kružnice
-ax.text(x0, y0, f"[{x0}, {y0}]", color="black",
-        fontsize=10, ha="right", va="bottom",
+# napsání souřadnic u středu kružnice, odsazeno od os
+offset = 0.02 * r  # odsazení 2 % poloměru
+ax.text(x0 + offset, y0 + offset, f"[{x0}, {y0}]", color="black",
+        fontsize=10, ha="left", va="bottom",
         bbox=dict(facecolor="white", alpha=0.5, edgecolor="none"))
 
 ax.legend()
@@ -49,7 +50,7 @@ st.pyplot(fig)
 
 # Informace o autorovi a technologiích
 st.sidebar.markdown("### Info")
-st.sidebar.write("Autor: [Ondřej Brosch]")
+st.sidebar.write("Autor: Ondřej Brosch")
 st.sidebar.write("Kontakt: 277700@vutbr.cz")
 st.sidebar.write("Technologie: Python, Streamlit, Matplotlib, NumPy")
 
