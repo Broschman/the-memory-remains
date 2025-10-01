@@ -1,4 +1,4 @@
-import streamlit as st
+koimport streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -12,6 +12,7 @@ y0 = st.sidebar.number_input("Souřadnice středu Y", value=0.0)
 r = st.sidebar.number_input("Poloměr kružnice (m)", value=1.0, min_value=0.1)
 n = st.sidebar.slider("Počet bodů", min_value=3, max_value=500, value=20)
 barva = st.sidebar.color_picker("Barva bodů", "#ff0000")
+velikost = st.sidebar.slider("Velikost bodů", min_value=1, max_value=50, value=20)
 
 # Výpočet bodů
 angles = np.linspace(0, 2*np.pi, n, endpoint=False)
@@ -20,7 +21,7 @@ y = y0 + r * np.sin(angles)
 
 # Vykreslení grafu
 fig, ax = plt.subplots()
-ax.scatter(x, y, c=barva, s=5, label="Body")
+ax.scatter(x, y, c=barva, s=velikost, label="Body")
 ax.set_aspect("equal", adjustable="box")
 ax.set_xlabel("x (m)")
 ax.set_ylabel("y (m)")
