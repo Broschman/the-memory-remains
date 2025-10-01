@@ -1,8 +1,6 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-import tempfile
-from fpdf import FPDF
 
 # Titulek aplikace
 st.title("Bodový graf kružnice")
@@ -62,53 +60,39 @@ kontakt = "277700@vutbr.cz"
 technologie = "Python, Streamlit, Matplotlib, NumPy"
 
 import io
+from fpdf import FPDF
+import tempfile
 
-if st.button("Stáhnout PDF s grafem a parametry"):
-    from fpdf import FPDF
+# uložíme graf do PNG
+tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
 
-    # uložíme graf do BytesIO
-    img_bytes = io.BytesIO()
-    fig.savefig(img_bytes, dpi=150, bbox_inches='tight')
-    img_bytes.seek(0)
+# vytvoření PDF do BytesIO
+pdf_bytes = io.BytesIO()
+pdf = FPDF()
+pdf.add_page()
+pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
+pdf.set_font("DejaVu", size=12)
+pdf.image(tmpfile.name, x=10, y=20, w=100)
+pdf.set_xy(120, 20)
+text = (
+    f"Body na kruznici - parametry\n\n"
+    f"Střed: ({x0}, {y0})\n"
+    f"Poloměr: {r} m\n"
+    f"Počet bodů: {n}\n"
+    f"Velikost bodů: {velikost}\n\n"
+    f"Autor: Ondřej Brosch\n"
+    f"Kontakt: 277700@vutbr.cz\n"
+    f"Použité technologie: Python, Streamlit, Matplotlib, NumPy"
+)
+pdf.multi_cell(0, 8, text, align="L")
+pdf.output(pdf_bytes)
+pdf_bytes.seek(0)
 
-    # vytvoření PDF do BytesIO
-    pdf_bytes = io.BytesIO()
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
-    pdf.set_font("DejaVu", size=12)
-
-    # vložení obrázku z BytesIO
-    # fpdf neumí přímo BytesIO, takže musíme uložit obrázek do tmpfile
-    import tempfile
-    tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-    tmpfile.write(img_bytes.getbuffer())
-    tmpfile.flush()
-    pdf.image(tmpfile.name, x=10, y=20, w=100)
-
-    # text vedle obrázku
-    pdf.set_xy(120, 20)
-    text = (
-        f"Body na kruznici - parametry\n\n"
-        f"Střed: ({x0}, {y0})\n"
-        f"Poloměr: {r} m\n"
-        f"Počet bodů: {n}\n"
-        f"Velikost bodů: {velikost}\n\n"
-        f"Autor: Ondřej Brosch\n"
-        f"Kontakt: 277700@vutbr.cz\n"
-        f"Použité technologie: Python, Streamlit, Matplotlib, NumPy"
-    )
-    pdf.multi_cell(0, 8, text, align="L")
-
-    # uloží PDF do BytesIO
-    pdf.output(pdf_bytes)
-    pdf_bytes.seek(0)
-
-    # rovnou nabídne ke stažení v jednom kroku
-    st.download_button(
-        label="Stáhnout PDF",
-        data=pdf_bytes,
-        file_name="kruznice.pdf",
-        mime="application/pdf"
-    )
-
+# rovnou nabídne ke stažení
+st.download_button(
+    label="Stáhnout PDF",
+    data=pdf_bytes,
+    file_name="kruznice.pdf",
+    mime="application/pdf"
+)
