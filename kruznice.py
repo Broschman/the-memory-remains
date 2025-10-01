@@ -43,7 +43,7 @@ ax.axvline(x=x0, color="black", linewidth=0.8)
 offset = 0.02 * r  # odsazení 2 % poloměru
 ax.text(x0 + offset, y0 + offset, f"[{x0}, {y0}]", color="black",
         fontsize=10, ha="left", va="bottom",
-        bbox=dict(facecolor="white", alpha=0.5, edgecolor="none"))
+        bbox=dict(facecolor="white", alpha=0.5, edgecolor="none", pad=1))
 
 ax.legend()
 st.pyplot(fig)
