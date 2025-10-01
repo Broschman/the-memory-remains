@@ -58,24 +58,35 @@ st.sidebar.write("Technologie: Python, Streamlit, Matplotlib, NumPy")
 from fpdf import FPDF
 
 if st.button("Uložit graf a parametry do PDF"):
-    from fpdf import FPDF
-    import tempfile
+from fpdf import FPDF
+import tempfile
 
-    # Uložíme graf do dočasného souboru
+# -- Příklad proměnných, ty si nahraď svými --
+x0, y0 = 0, 0
+r = 5
+n = 100
+velikost = 10
+barva = "blue"
+
+# tlačítko pro export do PDF
+if st.button("Uložit graf a parametry do PDF"):
+    # uložíme graf jako obrázek (předpokládám, že máš fig)
     tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
     fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
 
-    # Vytvoření PDF
+    # vytvoření PDF
     pdf = FPDF()
     pdf.add_page()
 
-    # Přidání obrázku (grafu) vlevo
+    # přidání Unicode fontu
+    pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
+    pdf.set_font("DejaVu", size=12)
+
+    # vložení obrázku vlevo
     pdf.image(tmpfile.name, x=10, y=20, w=100)
 
-    # Přidání textu vedle obrázku
-    pdf.set_xy(120, 20)  # pozice textu vedle obrázku
-    pdf.set_font("DeJaVu", size=12)
-    
+    # vložení parametrů a autora vedle obrázku
+    pdf.set_xy(120, 20)
     text = (
         f"Body na kruznici - parametry\n\n"
         f"Střed: ({x0}, {y0})\n"
@@ -88,7 +99,7 @@ if st.button("Uložit graf a parametry do PDF"):
     )
     pdf.multi_cell(0, 8, text, align="L")
 
-    # Uloží PDF
+    # uloží PDF
     pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
     st.success(f"PDF bylo vygenerováno ({pdf_file})")
