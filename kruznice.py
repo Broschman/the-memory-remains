@@ -61,22 +61,29 @@ autor = "Ondřej Brosch"
 kontakt = "277700@vutbr.cz"
 technologie = "Python, Streamlit, Matplotlib, NumPy"
 
-if st.button("Stáhnout PDF"):
-    import tempfile
+import io
+
+if st.button("Stáhnout PDF s grafem a parametry"):
     from fpdf import FPDF
 
-    # uložíme graf do dočasného PNG
-    tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-    fig.savefig(tmpfile.name, dpi=150, bbox_inches='tight')
+    # uložíme graf do BytesIO
+    img_bytes = io.BytesIO()
+    fig.savefig(img_bytes, dpi=150, bbox_inches='tight')
+    img_bytes.seek(0)
 
-    # vytvoření PDF
-    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    # vytvoření PDF do BytesIO
+    pdf_bytes = io.BytesIO()
     pdf = FPDF()
     pdf.add_page()
     pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
     pdf.set_font("DejaVu", size=12)
 
-    # vložení obrázku
+    # vložení obrázku z BytesIO
+    # fpdf neumí přímo BytesIO, takže musíme uložit obrázek do tmpfile
+    import tempfile
+    tmpfile = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+    tmpfile.write(img_bytes.getbuffer())
+    tmpfile.flush()
     pdf.image(tmpfile.name, x=10, y=20, w=100)
 
     # text vedle obrázku
@@ -93,14 +100,15 @@ if st.button("Stáhnout PDF"):
     )
     pdf.multi_cell(0, 8, text, align="L")
 
-    # uloží PDF
-    pdf.output(pdf_file.name)
+    # uloží PDF do BytesIO
+    pdf.output(pdf_bytes)
+    pdf_bytes.seek(0)
 
-    # rovnou nabídne ke stažení
-    with open(pdf_file.name, "rb") as f:
-        st.download_button(
-            label="Stáhnout PDF",
-            data=f,
-            file_name="kruznice.pdf",
-            mime="application/pdf"
-        )
+    # rovnou nabídne ke stažení v jednom kroku
+    st.download_button(
+        label="Stáhnout PDF",
+        data=pdf_bytes,
+        file_name="kruznice.pdf",
+        mime="application/pdf"
+    )
+
