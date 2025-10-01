@@ -1,4 +1,4 @@
 streamlit
 matplotlib
 numpy
-fdpf2
+fpdf2
