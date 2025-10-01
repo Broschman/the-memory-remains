@@ -91,7 +91,6 @@ if st.button("Uložit graf a parametry do PDF"):
     pdf.output(pdf_file)
     st.success(f"PDF bylo vygenerováno ({pdf_file})")
         
-if st.button("Uložit graf a parametry do PDF"):
     # --- generování PDF ---
     pdf_file = "kruznice.pdf"
     pdf.output(pdf_file)
