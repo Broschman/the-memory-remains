@@ -29,6 +29,28 @@ ax.grid(True)
 ax.legend()
 
 st.pyplot(fig)
+fig, ax = plt.subplots()
+
+# body
+ax.scatter(x, y, c=barva, s=velikost, label="Body")
+
+# stejné měřítko os
+ax.set_aspect("equal", adjustable="box")
+
+# popisky
+ax.set_xlabel("x (m)")
+ax.set_ylabel("y (m)")
+
+# tenká šedá mřížka
+ax.grid(True, color="lightgray", linewidth=0.5)
+
+# osy x=0 a y=0 černé tenké
+ax.axhline(0, color="black", linewidth=0.8)
+ax.axvline(0, color="black", linewidth=0.8)
+
+ax.legend()
+st.pyplot(fig)
+
 
 # Informace o autorovi a technologiích
 st.sidebar.markdown("### Info")
